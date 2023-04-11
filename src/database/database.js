@@ -14,4 +14,5 @@ async function main() {
   const documents = await coll.find({}).toArray();
   console.log(documents);
 }
-main();
+// Export the main() function
+module.exports = { main };
