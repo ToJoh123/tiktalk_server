@@ -18,7 +18,7 @@ app.use('/posts', postsRouter);
 main()
   .then(() => {
     console.log('Database connection established successfully');
-    // Start your server here
+    //Start your server here
     app.listen(3000, () => {
       console.log('Server is running on http://localhost:3000');
     });
