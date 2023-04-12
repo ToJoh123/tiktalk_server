@@ -1,6 +1,10 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors'); //Cors to get the client side to work with this application.
 const app = express();
+
+//Cors middleware.
+app.use(cors());
 
 //Import the database.js file
 const { main } = require('./src/database/database');
@@ -9,8 +13,8 @@ const postsRouter = require('./src/routes/posts_router');
 app.use('/', authRouter);
 app.use('/posts', postsRouter);
 
-//Call the main() function to establish the database connection
-//Fetch documents from the MongoDB collection
+//Call the main() function to establish the database connection.
+//Fetch documents from the MongoDB collection.
 main()
   .then(() => {
     console.log('Database connection established successfully');
