@@ -2,6 +2,31 @@ const express = require('express');
 const authRouter = express.Router();
 const { MongoClient } = require('mongodb');
 
+//Jwt.
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
+const secretKey = process.env.JWT_SECRET_KEY;
+
+//Middleware to verify JWT token.
+const verifyToken = (req, res, next) => {
+  //Get the token from request headers or query parameters
+  const token = req.headers.authorization || req.query.token;
+  
+  // Verify the token
+  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+    if (err) {
+      //Return error response if token is invalid.
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    
+    //.Store the decoded payload in request for further use
+    req.user = decoded;
+    next(); // Move to next middleware or route handler
+  });
+};
+
+
 //Middleware to parse JSON request bodies.
 authRouter.use(express.json());
 
@@ -54,19 +79,28 @@ const login = async (req, res) => {
     const database = connection.db('test');
     const coll = database.collection('test');
 
-    // Find the user in the MongoDB collection by username
+    //Find the user in the MongoDB collection by username.
     const user = await coll.findOne({ username });
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
 
-    // Compare the password with the stored hashed password
+    //Compare the password with the stored hashed password.
     const passwordMatch = await bcrypt.compare(password, user.password);
-
+    
+    // Login successful.
     if (passwordMatch) {
-      //Passwords match and user should be sent to the feed page.
-      return res.status(200).json({ message: 'Login successful' });
+        //Generate JWT token
+			  const token = jwt.sign({ username: username }, secretKey, { expiresIn: 120 });
+			  res.cookie("jwt", token, {
+				httpOnly: true,
+				sameSite: "lax", //Remove sameSite if login is not working.
+				maxAge: 360000
+			  });
+      
+      // Return the JWT token as part of the response
+      return res.status(200).json({ token, message: 'Login successful' });
     } else {
       //Passwords do not match, user is not authenticated. Display an error.
       return res.status(401).json({ message: 'Invalid username or password' });
@@ -78,11 +112,11 @@ const login = async (req, res) => {
   }
 };
   
-  //Logout function.
-  const logout = (req, res) => {
-    //Remove a JWT here.
-    res.send('Logout function called');
-  };
+//Logout function, remove cookie. 
+const logout = (req, res) => {
+  res.clearCookie('jwt', { httpOnly: true, sameSite: 'lax' });
+  res.send('Logout successful');
+};
 
 authRouter.post('/register', register);
 authRouter.post('/login', login);
