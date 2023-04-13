@@ -95,12 +95,13 @@ const login = async (req, res) => {
 			  const token = jwt.sign({ username: username }, secretKey, { expiresIn: 120 });
 			  res.cookie("jwt", token, {
 				httpOnly: true,
-				sameSite: "lax", //Remove sameSite if login is not working.
-				maxAge: 360000
+				sameSite: "none",
+        secure: true,
+				maxAge: 360000 * 15
 			  });
       
       // Return the JWT token as part of the response
-      return res.status(200).json({ token, message: 'Login successful' });
+      return res.status(200).send({ token, message: 'Login successful' });
     } else {
       //Passwords do not match, user is not authenticated. Display an error.
       return res.status(401).json({ message: 'Invalid username or password' });
