@@ -97,7 +97,7 @@ const login = async (req, res) => {
 				httpOnly: true,
 				sameSite: "none",
         secure: true,
-				maxAge: 360000
+				maxAge: 360000 * 15
 			  });
       
       // Return the JWT token as part of the response
