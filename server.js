@@ -4,7 +4,7 @@ const cors = require('cors'); //Cors to get the client side to work with this ap
 const app = express();
 
 //Cors middleware.
-app.use(cors());
+app.use(cors({origin:"http://localhost:5500", credentials:true}));
 
 //Import the database.js file
 const { main } = require('./src/database/database');
