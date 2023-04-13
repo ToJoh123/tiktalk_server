@@ -9,7 +9,7 @@ async function main() {
 
   const database = connection.db("test");
 
-  const coll = database.collection("test");
+  const coll = database.collection("users");
 
   const documents = await coll.find({}).toArray();
   console.log(documents);

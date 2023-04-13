@@ -44,7 +44,7 @@ const register = async (req, res) => {
     const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.smsizof.mongodb.net/?retryWrites=true&w=majority`;
     const connection = await MongoClient.connect(url);
     const database = connection.db('test');
-    const coll = database.collection('test');
+    const coll = database.collection('users');
 
     //Check if user already exists.
     const existingUser = await coll.findOne({ username });
@@ -77,7 +77,7 @@ const login = async (req, res) => {
     const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.smsizof.mongodb.net/?retryWrites=true&w=majority`;
     const connection = await MongoClient.connect(url);
     const database = connection.db('test');
-    const coll = database.collection('test');
+    const coll = database.collection('users');
 
     //Find the user in the MongoDB collection by username.
     const user = await coll.findOne({ username });
