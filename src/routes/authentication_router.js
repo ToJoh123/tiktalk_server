@@ -38,7 +38,7 @@ const saltRounds = 10; // Number of salt rounds for bcrypt
 const register = async (req, res) => {
   try {
     // Extract user data from request body
-    const { username, password } = req.body;
+    const { firstname, surname, username, password } = req.body;
 
     // Connect to MongoDB
     const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.smsizof.mongodb.net/?retryWrites=true&w=majority`;
@@ -56,7 +56,7 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     //Insert new user into database.
-    const newUser = { username, password: hashedPassword };
+    const newUser = { firstname, surname, username, password: hashedPassword };
     await coll.insertOne(newUser);
 
     //Success.
