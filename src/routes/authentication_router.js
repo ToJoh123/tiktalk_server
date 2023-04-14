@@ -121,7 +121,7 @@ const logout = (req, res) => {
 
 authRouter.post('/register', register);
 authRouter.post('/login', login);
-authRouter.get('/logout', logout);
+authRouter.post('/logout', logout);
 
 
 module.exports = authRouter;
