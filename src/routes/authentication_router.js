@@ -8,23 +8,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 const secretKey = process.env.JWT_SECRET_KEY;
 
-//Middleware to verify JWT token.
-const verifyToken = (req, res, next) => {
-  //Get the token from request headers or query parameters
-  const token = req.headers.authorization || req.query.token;
-  
-  // Verify the token
-  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
-    if (err) {
-      //Return error response if token is invalid.
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-    
-    //.Store the decoded payload in request for further use
-    req.user = decoded;
-    next(); // Move to next middleware or route handler
-  });
-};
 
 
 //Middleware to parse JSON request bodies.
@@ -54,7 +37,7 @@ const register = async (req, res) => {
 
     //Hash the password.
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-
+    console.log(firstname, surname);
     //Insert new user into database.
     const newUser = { firstname, surname, username, password: hashedPassword };
     await coll.insertOne(newUser);
@@ -96,7 +79,7 @@ const login = async (req, res) => {
 			  res.cookie("jwt", token, {
 				httpOnly: false,
 				sameSite: "none",
-        secure: true,
+        secure: false,
 				maxAge: 360000 * 15
 			  });
       
