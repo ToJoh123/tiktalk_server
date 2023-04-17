@@ -19,7 +19,6 @@ app.use('/posts', verifyToken, postsRouter);
 
 
 // Call the main() function to establish the database connection.
-// Fetch documents from the MongoDB collection.
 main()
   .then(() => {
     console.log('Database connection established successfully');
