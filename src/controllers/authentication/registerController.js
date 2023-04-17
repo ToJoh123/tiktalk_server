@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
-const { userSchema } = require('../../../validation/userschema'); // Import the JOI schema
+const { userSchema } = require('../../validation/userschema'); // Import the JOI schema
 
 const saltRounds = 10; // Number of salt rounds for bcrypt
 
