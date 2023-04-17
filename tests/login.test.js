@@ -2,12 +2,14 @@ const chai = require('chai');
 const expect = chai.expect;
 const supertest = require('supertest');
 const app = require('../server'); // Replace with the path to your Express app
+const dotenv = require('dotenv');
+dotenv.config();
 
 describe('/login endpoint', () => {
   it('should return a token when provided with correct credentials', (done) => {
     supertest(app)
       .post('/login')
-      .send({ username: 'Lucas', password: 'Wivlar1234' }) // Replace with valid credentials
+      .send({ username: 'Lucas', password: process.env.LOGIN_TEST }) // Replace with your username and add the password within env file.
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
