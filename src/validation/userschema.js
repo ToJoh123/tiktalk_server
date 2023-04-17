@@ -1,11 +1,13 @@
 const Joi = require('joi');
 
 const userSchema = Joi.object({
-  firstname: Joi.string().required().messages({
-    'any.required': 'First name is required'
+  firstname: Joi.string().max(30).required().messages({
+    'any.required': 'Firstname is required',
+    'string.max': 'Firstname must be at most {#limit} characters long'
   }),
-  surname: Joi.string().required().messages({
-    'any.required': 'Surname is required'
+  surname: Joi.string().max(30).required().messages({
+    'any.required': 'Surname is required',
+    'string.max': 'Surname must be at most {#limit} characters long'
   }),
   username: Joi.string().alphanum().min(3).max(30).required().messages({
     'string.alphanum': 'Username must contain only letters and numbers',
