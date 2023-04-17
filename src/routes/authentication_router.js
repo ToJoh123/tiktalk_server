@@ -1,8 +1,8 @@
 const express = require('express');
 const authRouter = express.Router();
-const { login } = require('./controllers/authentication/loginController');
-const { register } = require('./controllers/authentication/registerController');
-const { logout } = require('./controllers/authentication/logoutController');
+const { login } = require('../controllers/authentication/loginController');
+const { register } = require('../controllers/authentication/registerController');
+const { logout } = require('../controllers/authentication/logoutController');
 
 //Middleware to parse JSON request bodies.
 authRouter.use(express.json());
