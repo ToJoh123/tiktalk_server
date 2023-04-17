@@ -9,7 +9,7 @@ describe('/login endpoint', () => {
   it('should return a token when provided with correct credentials', (done) => {
     supertest(app)
       .post('/login')
-      .send({ username: 'Lucas', password: process.env.LOGIN_TEST }) // Replace with your username and add the password within env file.
+      .send({ username: process.env.LOGIN_TEST_USR, password: process.env.LOGIN_TEST_PW }) // Add the username and password within the .env file. 
       .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
