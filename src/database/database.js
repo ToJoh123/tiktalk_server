@@ -11,8 +11,9 @@ async function main() {
 
   const coll = database.collection("users");
 
-  const documents = await coll.find({}).toArray();
-  console.log(documents);
+  return coll; // Return the coll variable
+
 }
+
 // Export the main() function
 module.exports = { main };
