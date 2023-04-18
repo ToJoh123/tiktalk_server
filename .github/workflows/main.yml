@@ -3,10 +3,10 @@ name: Run Tests
 on:
   push:
     branches:
-      - main  
+      - dev  
   pull_request:
     branches:
-      - main  
+      - dev  
 
 jobs:
   test:
@@ -16,8 +16,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2  
 
+      - name: Set environment variables
+        run: |
+          echo "LOGIN_TEST_PW=${{ secrets.LOGIN_TEST_PW }}" >> .env
+          echo "LOGIN_TEST_USR=${{ secrets.LOGIN_TEST_USR }}" >> .env
+
       - name: Install dependencies
         run: npm ci  
 
       - name: Run tests
-        run: npm test  
+        run: npm test
