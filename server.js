@@ -18,12 +18,11 @@ app.use(cookieParser()); // Add cookie-parser middleware
 // Import the database.js file
 const { main } = require("./src/database/database");
 const authRouter = require("./src/routes/authentication_router");
-const verifyToken = require("./src/routes/middlewares/verifyToken");
-const postsRouter = require("./src/routes/posts_router");
+const verifyToken = require("./src/middlewares/verifyToken");
 const commentsRouter = require("./src/routes/commentsRouter");
 app.use("/", authRouter);
-app.use("/posts", verifyToken, postsRouter);
-app.use("/comments", commentsRouter);
+app.use("/posts", postsRouter);
+app.use("/comments", verifyToken, commentsRouter);
 
 // Call the main() function to establish the database connection.
 main()
