@@ -26,6 +26,7 @@ app.use("/posts", verifyToken, postsRouter);
 main()
   .then(() => {
     console.log("delete me index.js");
+    console.log("delete me index.js");
     console.log("Database connection established successfully");
     // Start your server here
     app.listen(3000, () => {
