@@ -20,7 +20,8 @@ jobs:
         run: |
           echo "LOGIN_TEST_PW=${{ secrets.LOGIN_TEST_PW }}" >> .env
           echo "LOGIN_TEST_USR=${{ secrets.LOGIN_TEST_USR }}" >> .env
-
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
       - name: Install dependencies
         run: npm ci  
 
