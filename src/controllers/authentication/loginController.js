@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
-const secretKey = process.env.JWT_SECRET_KEY;
 
 //Login function.
 const login = async (req, res) => {
@@ -34,7 +33,7 @@ const login = async (req, res) => {
       delete copyOfUser.password; //Delete the password from the user object before sending it to the client.
 
       //Generate JWT token
-      const token = jwt.sign(copyOfUser, secretKey, {
+      const token = jwt.sign(copyOfUser, process.env.JWT_SECRET_KEY, {
         expiresIn: 120,
       });
       res.cookie("jwt", token, {
