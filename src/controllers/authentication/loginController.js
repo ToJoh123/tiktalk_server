@@ -33,9 +33,18 @@ const login = async (req, res) => {
       delete copyOfUser.password; //Delete the password from the user object before sending it to the client.
 
       //Generate JWT token
-      const token = jwt.sign(copyOfUser, process.env.JWT_SECRET_KEY, {
-        expiresIn: 120,
-      });
+      const token = jwt.sign(
+        {
+          copyOfUser,
+          _id: copyOfUser._id,
+          username: copyOfUser.username,
+          fullname: `${copyOfUser.firstname} ${copyOfUser.surname}`,
+        },
+        process.env.JWT_SECRET_KEY,
+        {
+          expiresIn: 120,
+        }
+      );
       res.cookie("jwt", token, {
         httpOnly: false,
         sameSite: "none",
