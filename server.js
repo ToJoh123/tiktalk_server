@@ -25,6 +25,7 @@ app.use("/posts", verifyToken, postsRouter);
 // Call the main() function to establish the database connection.
 main()
   .then(() => {
+    console.log("delete me index.js");
     console.log("Database connection established successfully");
     // Start your server here
     app.listen(3000, () => {
