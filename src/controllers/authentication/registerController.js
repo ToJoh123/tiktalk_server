@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
-const { userSchema } = require('../../validation/userschema'); // Import the JOI schema
+const { registerSchema } = require('../../validation/registerschema'); // Import the JOI schema
 
 const saltRounds = 10; // Number of salt rounds for bcrypt
 
@@ -8,7 +8,7 @@ const saltRounds = 10; // Number of salt rounds for bcrypt
 const register = async (req, res) => {
   try {
     // Validate request body against userSchema
-    const { error, value } = userSchema.validate(req.body);
+    const { error, value } = registerSchema.validate(req.body);
     if (error) {
       return res.status(400).json({ message: error.details[0].message });
     }
