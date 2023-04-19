@@ -1,7 +1,8 @@
 const chai = require('chai');
 const expect = chai.expect;
 const supertest = require('supertest');
-const app = require('../server'); 
+const app = require('../server');
+const { userSchema } = require('../src/validation/userschema')
 
 const { main } = require('../src/database/database'); 
 
@@ -45,4 +46,32 @@ describe('/register', () => {
         done();
       });
   });
+
+  describe('Joi Validation', () => {
+    it('should validate a correct user object', () => {
+      const user = {
+        firstname: 'test',
+        surname: 'testsson',
+        username: 'jadajada',
+        password: 'mypassword123' // Valid password (greater than 6 characters)
+      };
+  
+      const { error } = userSchema.validate(user);
+      expect(error).to.be.undefined;
+    });
+  
+    it('should return an error for an incorrect user object', () => {
+      const user = {
+        firstname: 'test',
+        surname: 'testsson',
+        username: 'jadajada',
+        password: 'abc' // Invalid password (less than 6 characters)
+      };
+  
+      const { error } = userSchema.validate(user);
+      expect(error).to.not.be.undefined;
+      expect(error.details[0].message).to.equal('Password must be alphanumeric and between 6 and 30 characters long');
+    });
+  
+})
 });
