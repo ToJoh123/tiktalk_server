@@ -38,7 +38,7 @@ exports.postComment = async function postComment(req, res) {
   };
 
   try {
-    const result = await db.comments.insertOne({ comment });
+    const result = await db.comments.insertOne(comment);
     //✔️
     res.status(200).json({
       message: "success in postComment function at /comments",
