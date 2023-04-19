@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const userSchema = Joi.object({
+const registerSchema = Joi.object({
   firstname: Joi.string().max(30).required().messages({
     'any.required': 'Firstname is required',
     'string.max': 'Firstname must be at most {#limit} characters long'
@@ -22,5 +22,5 @@ const userSchema = Joi.object({
 });
 
 module.exports = {
-  userSchema
+  registerSchema
 };
