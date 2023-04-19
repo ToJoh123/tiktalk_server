@@ -21,7 +21,7 @@ describe('/login endpoint', () => {
   it('should return an error when provided with incorrect credentials', (done) => {
     supertest(app)
       .post('/login')
-      .send({ username: 'john.doe', password: 'wrongpassword' }) // Replace with invalid credentials
+      .send({ username: 'Lucas', password: 'wrongpassword' }) // Replace with invalid credentials
       .expect(401)
       .end((err, res) => {
         expect(res.status).to.equal(401);
