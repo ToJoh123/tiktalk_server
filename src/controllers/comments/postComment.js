@@ -3,7 +3,7 @@ const db = require("../../database/db");
 const jwt = require("jsonwebtoken"); //🍪
 const joi = require("joi"); //validation
 const schema = joi.object({
-  parentId: joi.string().min(1).max(150).allow(null),
+  parentId: joi.string().min(1).max(150).allow(null), //if they sent no parentid then it will be null
   text: joi.string().required().min(1).max(150),
 });
 //here we want to get the id from the cookie
