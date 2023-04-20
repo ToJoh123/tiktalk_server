@@ -61,14 +61,14 @@ const login = async (req, res) => {
       },
       process.env.JWT_SECRET_KEY,
       {
-        expiresIn: 120,
+        expiresIn: 60*30,
       }
     );
     res.cookie("jwt", token, {
       httpOnly: false,
       sameSite: "none",
       secure: false,
-      maxAge: 360000 * 15,
+      maxAge: 360000 * 30,
     });
 
     // Return the JWT token as part of the response
