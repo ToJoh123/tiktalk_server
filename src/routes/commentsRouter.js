@@ -8,6 +8,8 @@ const commentsRouter = express.Router();
 commentsRouter.get("/", getComments);
 commentsRouter.post("/", postComment);
 commentsRouter.delete("/", deleteComment);
+
 commentsRouter.get("/count", countFollowers);
+
 
 module.exports = commentsRouter;
