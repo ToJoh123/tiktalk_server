@@ -5,8 +5,6 @@ const app = require("../../../server"); // Replace with the path to your Express
 const dotenv = require("dotenv");
 dotenv.config();
 const cookie = require("cookie");
-const randomQuote = require("random-lotr-movie-quote");
-const moment = require("moment");
 
 describe("/getComments endpoint", () => {
   let token;
