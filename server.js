@@ -20,8 +20,10 @@ const { main } = require("./src/database/database");
 const authRouter = require("./src/routes/authentication_router");
 const verifyToken = require("./src/middlewares/verifyToken");
 const commentsRouter = require("./src/routes/commentsRouter");
+const followRouter = require("./src/routes/followRouter");
 app.use("/", authRouter);
 app.use("/comments", verifyToken, commentsRouter);
+app.use("/profile", verifyToken, followRouter);
 
 // Call the main() function to establish the database connection.
 main()
