@@ -9,7 +9,7 @@ commentsRouter.get("/", getComments);
 commentsRouter.post("/", postComment);
 commentsRouter.delete("/", deleteComment);
 
-commentsRouter.get("/count", countFollowers);
+commentsRouter.get("/count", countFollowers); //This needs to be validated.
 
 
 module.exports = commentsRouter;

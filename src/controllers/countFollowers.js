@@ -12,18 +12,15 @@ const connect = async () => {
 };
 
 const countFollowers = async (req, res) => {
-  const loggedInUser = req.user.username; //Validate this.
+  const loggedInUser = req.user.username;
 
   try {
     const db = await connect();
-
     const followCollection = db.collection('follow');
-    const followersCount = await followCollection.countDocuments({ username: loggedInUser });
-    const followingCount = await followCollection.countDocuments({ follower: loggedInUser });
-
+    const followersCount = await followCollection.countDocuments({ username: loggedInUser }); //Followers.
+    const followingCount = await followCollection.countDocuments({ follower: loggedInUser }); //Following.
     res.status(200).json({ followers: followersCount, following: followingCount });
   } catch (err) {
-    console.log('Error connecting to MongoDB:', err);
     res.status(500).json('Error connecting to MongoDB');
   }
 };
