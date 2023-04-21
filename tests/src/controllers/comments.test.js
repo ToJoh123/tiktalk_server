@@ -6,10 +6,10 @@ const dotenv = require("dotenv");
 dotenv.config();
 const cookie = require("cookie");
 
-describe("/getComments endpoint", () => {
+describe("/comment endpoint.  different methods(get,post,del)", () => {
   let commentId;
 
-  it("should return a jwt cookie to be used for other tests", (done) => {
+  it("should .login and return a jwt cookie to be used for other tests", (done) => {
     supertest(app)
       .post("/login")
       .send({
@@ -36,7 +36,7 @@ describe("/getComments endpoint", () => {
 }
    */
 
-  it("should post a comment and save the commentId to be used for other tests", (done) => {
+  it("should .post a comment and save the commentId to be used for other tests", (done) => {
     supertest(app)
       .post("/comments")
       .set("Cookie", jwtCookie)
@@ -56,8 +56,7 @@ describe("/getComments endpoint", () => {
       });
   });
   // Post a child comment (reply)
-  let childCommentId;
-  it("should post a child comment (reply) and save the childCommentId to be used for other tests", (done) => {
+  it("should .post a child comment (reply) and save the childCommentId to be used for other tests", (done) => {
     supertest(app)
       .post("/comments")
       .set("Cookie", jwtCookie)
@@ -78,7 +77,7 @@ describe("/getComments endpoint", () => {
   });
 
   // Delete parent comment and check if both parent and child comments are deleted
-  it("should delete the inserted parent comment along with its replies", (done) => {
+  it("should .delete the inserted parent comment along with its replies", (done) => {
     supertest(app)
       .delete(`/comments`)
       .set("Cookie", jwtCookie)
@@ -102,7 +101,7 @@ describe("/getComments endpoint", () => {
       });
   });
 
-  it("should return comments with correct data format", (done) => {
+  it("should .get comments with correct data format", (done) => {
     supertest(app)
       .get("/comments")
       .set("Cookie", jwtCookie)
