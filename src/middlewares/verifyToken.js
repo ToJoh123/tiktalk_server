@@ -6,7 +6,7 @@ const secret = process.env.JWT_SECRET_KEY;
 // Middleware to verify JWT token
 const verifyToken = function verifyToken(req, res, next) {
   try {
-    const jwtToken = req.cookies.jwt; // Update this line to access 'jwt' cookie
+    const jwtToken = req.cookies.jwt || req.headers.authorization.split(' ')[1]; // Update this line to check for the token in both cookies and headers
     if (!jwtToken) {
       res.status(401).json('Token not found');
       return;
