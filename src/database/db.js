@@ -20,7 +20,7 @@ class MongoDatabase {
   /**
    * Array of collections you want to be able to access.
    */
-  collections = ["users", "comments"];
+  collections = ["users", "comments", "follow"];
 
   /**
    * Establishes a connection to your MongoDB database.
