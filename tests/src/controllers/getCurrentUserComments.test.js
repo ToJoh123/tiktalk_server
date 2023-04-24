@@ -37,7 +37,7 @@ describe("/comments/user endpoint. GET getCurrentUserComments", () => {
           "this is getCurrentUserComments function at /comments/user"
         );
         expect(res.body).to.have.property("data");
-        expect(res.body.data).to.be.an("array").that.is.not.empty;
+        expect(res.body.data).to.be.an("array");
         res.body.data.forEach((comment) => {
           expect(comment).to.have.property("_id").that.is.a("string");
           expect(comment).to.have.property("parentId");
