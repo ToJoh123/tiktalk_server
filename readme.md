@@ -24,7 +24,7 @@ Comments
       deletes replies
 - [ ] patch('/comments')
       Edit a comment
-- [ ] get('/comments/user')
+- [x] get('/comments/user')
       Returns only comments from current user
 - [ ] .get('/comments/followers')
       Returns only comments from friend list
