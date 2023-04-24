@@ -5,6 +5,11 @@
 AuthRouter
 
 - [x] .post('/login')
+      {
+      username:[username],
+      password:[password]
+      }
+
 - [x] .post('/register')
 - [x] .post('/logout')
 
@@ -19,6 +24,8 @@ Comments
       deletes replies
 - [ ] patch('/comments')
       Edit a comment
+- [ ] get('/comments/user')
+      Returns only comments from current user
 - [ ] .get('/comments/followers')
       Returns only comments from friend list
 
