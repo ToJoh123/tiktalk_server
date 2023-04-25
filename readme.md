@@ -18,11 +18,22 @@ Comments
 - [x] .get('/comments')
       returns all comments
 - [x] .post('/comments')
+      {
+      "parentId":"insertdata",
+      "text":"insertdata"
+      }
       post a comment
 - [x] .delete('/comments')
-      deletes rootComments
-      deletes replies
-- [ ] patch('/comments')
+- [ ]       {
+          "\_id":"insertdata",
+          }
+          deletes rootComments
+          deletes replies
+- [x] patch('/comments')
+      {
+      "\_id":"insertdata",
+      "text":"insertdata"
+      }
       Edit a comment
 - [x] get('/comments/user')
       Returns only comments from current user
