@@ -1,20 +1,13 @@
-const { MongoClient } = require("mongodb");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const db = require("../../database/db"); // replaces const connect(already connected in server.js)
-/*
-const connect = async () => {
-  const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-  return client.db(dbName);
-};
-*/
+const db = require("../../database/db"); 
+
 const addFollow = async (req, res) => {
   const loggedInUser = req.user.username;
   const followUser = req.query.username;
 
   try {
-    //const db = await connect(); removed
     const usersCollection = db.users; // renamed from db.collection("users");
     const followCollection = db.follow; // renamed from db.collection("follow");
 

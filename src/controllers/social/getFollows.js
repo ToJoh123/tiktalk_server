@@ -1,23 +1,14 @@
-const { MongoClient } = require('mongodb');
 const dotenv = require('dotenv');
 dotenv.config();
 
-//Connect.
-const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.smsizof.mongodb.net/?retryWrites=true&w=majority`;
-const dbName = 'test';
-
-const connect = async () => {
-  const client = await MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-  return client.db(dbName);
-};
+const db = require("../../database/db");
 
 const getFollows = async (req, res) => {
     const loggedInUser = req.user.username;
-    const followType = req.query.type; // use req.query instead of req.params
+    const followType = req.query.type;
   
     try {
-      const db = await connect();
-      const followCollection = db.collection('follow');
+      const followCollection = db.follow; // renamed from db.collection("follow");
       let followList;
   
       if (followType === 'followers') {
