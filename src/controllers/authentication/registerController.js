@@ -1,7 +1,6 @@
-const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
 const { registerSchema } = require('../../validation/registerschema'); // Import the JOI schema
-
+const db = require("../../database/db"); 
 const saltRounds = 10; // Number of salt rounds for bcrypt
 
 //Register function.
@@ -16,14 +15,10 @@ const register = async (req, res) => {
     // Extract user data from validated request body
     const { firstname, surname, username, password } = value;
 
-    // Connect to MongoDB
-    const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.smsizof.mongodb.net/?retryWrites=true&w=majority`;
-    const connection = await MongoClient.connect(url);
-    const database = connection.db('test');
-    const coll = database.collection('users');
+    const usersCollection = db.users;
 
     // Check if user already exists
-    const existingUser = await coll.findOne({ username });
+    const existingUser = await usersCollection.findOne({ username });
     if (existingUser) {
       return res.status(409).json({ message: 'Username already exists' });
     }
@@ -33,7 +28,7 @@ const register = async (req, res) => {
 
     // Insert new user into database
     const newUser = { firstname, surname, username, password: hashedPassword };
-    await coll.insertOne(newUser);
+    await usersCollection.insertOne(newUser);
 
     // Success
     return res.status(201).json({ message: 'User registered successfully' });
