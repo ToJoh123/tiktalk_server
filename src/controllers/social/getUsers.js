@@ -15,7 +15,7 @@ const getUsers = async (req, res) => {
       //Loop through the users array and add isFollowing property to each object(user).
       const updatedUsers = await Promise.all(users.map(async (user) => {
         const isFollowing = await followCollection.findOne({ username: user.username, follower: loggedInUser });
-        user.isFollowing = !!isFollowing; // Set the isFollowing property to a boolean value
+        user.isFollowing = !!isFollowing; //Set the isFollowing property boolean value = true/false
         return user;
       }));
   
