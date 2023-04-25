@@ -2,13 +2,13 @@ const db = require("../../database/db"); //Connect.
 const bcrypt = require("bcrypt");
 const { loginSchema } = require('../../validation/loginschema'); // Import the JOI schema
 
-//Jwt.
+//Jwt library.
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
 
-//login function.
+//Login function.
 const login = async (req, res) => {
   try {
     //Validate request body against loginSchema. This will done before we query the database.
@@ -19,13 +19,13 @@ const login = async (req, res) => {
 
     const { username, password } = value;
 
-    // Compare the password with the stored hashed password.
+    //Compare the password with the stored hashed password.
     let user = null;
     try {
-      // Connect to MongoDB.
+      //Connect to collection users.
       const coll = db.users;
 
-      // Find the user in the MongoDB collection by username.
+      //Find the user in the MongoDB collection by username.
       user = await coll.findOne({ username });
       
     } catch (err) {
@@ -44,9 +44,9 @@ const login = async (req, res) => {
     }
 
     const copyOfUser = { ...user };
-    delete copyOfUser.password; // Delete the password from the user object before sending it to the client.
+    delete copyOfUser.password; //Delete the password from the user object before sending it to the client.
 
-    // Generate JWT token
+    //Generate JWT token.
     const token = jwt.sign(
       {
         copyOfUser,
@@ -66,7 +66,7 @@ const login = async (req, res) => {
       maxAge: 360000 * 30,
     });
 
-    // Return the JWT token as part of the response
+    //Return the JWT token as part of the response.
     return res.status(200).send({ token, message: "Login successful" });
   } catch (err) {
     console.error("Error in login function:", err);
