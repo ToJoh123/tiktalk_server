@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 const bcrypt = require("bcrypt");
 const { loginSchema } = require('../../validation/loginschema'); // Import the JOI schema
-const db = require("../../database/db"); 
+
 //Jwt.
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -22,10 +22,17 @@ const login = async (req, res) => {
     // Compare the password with the stored hashed password.
     let user = null;
     try {
-
+      // Connect to MongoDB.
+      const url = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.smsizof.mongodb.net/?retryWrites=true&w=majority`;
+      const connection = await MongoClient.connect(url);
+      const database = connection.db("test");
+      const coll = database.collection("users");
 
       // Find the user in the MongoDB collection by username.
       user = await coll.findOne({ username });
+
+      // Close the connection to MongoDB.
+      connection.close();
     } catch (err) {
       console.error("Error connecting to MongoDB:", err);
       return res.status(500).json({ message: "Error connecting to database" });
