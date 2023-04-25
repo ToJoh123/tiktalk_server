@@ -75,6 +75,29 @@ describe("/comment endpoint.  different methods(get,post,del)", () => {
         done();
       });
   });
+  it("should update a comment using .patch and return success message", (done) => {
+    supertest(app)
+      .patch("/comments")
+      .set("Cookie", jwtCookie)
+      .send({
+        _id: commentId,
+        text: "updated comment",
+      })
+      .expect(200)
+      .end((err, res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body).to.have.property("message").that.is.a("string");
+        expect(res.body.message).to.equal(
+          "success in patchComment function at /comments"
+        );
+        expect(res.body).to.have.property("result").that.is.an("object");
+        expect(res.body.result).to.have.property("acknowledged").that.is.true;
+        expect(res.body.result)
+          .to.have.property("modifiedCount")
+          .that.is.at.least(1);
+        done();
+      });
+  });
 
   // Delete parent comment and check if both parent and child comments are deleted
   it("should .delete the inserted parent comment along with its replies", (done) => {
