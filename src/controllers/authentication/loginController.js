@@ -1,11 +1,12 @@
+const { MongoClient } = require("mongodb");
 const bcrypt = require("bcrypt");
 const { loginSchema } = require('../../validation/loginschema'); // Import the JOI schema
-
+const db = require("../../database/db"); 
 //Jwt.
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
-const db = require("../../database/db"); 
+
 
 //login function.
 const login = async (req, res) => {
@@ -21,9 +22,10 @@ const login = async (req, res) => {
     // Compare the password with the stored hashed password.
     let user = null;
     try {
-      const usersCollection = db.users;
-      //Find the user in the MongoDB collection by username.
-      user = await usersCollection.findOne({ username });
+
+
+      // Find the user in the MongoDB collection by username.
+      user = await coll.findOne({ username });
     } catch (err) {
       console.error("Error connecting to MongoDB:", err);
       return res.status(500).json({ message: "Error connecting to database" });
@@ -41,6 +43,7 @@ const login = async (req, res) => {
 
     const copyOfUser = { ...user };
     delete copyOfUser.password; // Delete the password from the user object before sending it to the client.
+
     // Generate JWT token
     const token = jwt.sign(
       {
@@ -60,13 +63,13 @@ const login = async (req, res) => {
       secure: false,
       maxAge: 360000 * 30,
     });
+
     // Return the JWT token as part of the response
     return res.status(200).send({ token, message: "Login successful" });
   } catch (err) {
     console.error("Error in login function:", err);
     return res.status(500).send("Error logging in");
   }
-
 };
 
 module.exports = {
