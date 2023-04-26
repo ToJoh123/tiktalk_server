@@ -1,9 +1,23 @@
 const dotenv = require("dotenv");
 dotenv.config();
-
 const db = require("../../database/db"); 
+const Joi = require('joi');
+//Validate the type it should only query the database with followers or following.
+const addFollowSchema = Joi.object({
+  username: Joi.string().alphanum().min(3).max(30).required().messages({
+    "string.alphanum": "Username must contain only letters and numbers",
+    "string.min": "Username must be at least {#limit} characters long",
+    "string.max": "Username must be at most {#limit} characters long",
+    "any.required": "Username is required",
+  }),
+});
 
 const addFollow = async (req, res) => {
+  const { error } = addFollowSchema.validate({ username: req.query.username });
+  if (error) 
+  {
+    return res.status(400).json({ error: error.details[0].message });
+  }
   const loggedInUser = req.user.username;
   const followUser = req.query.username;
 
@@ -13,7 +27,8 @@ const addFollow = async (req, res) => {
 
     //Check if the user exists in the users collection.
     const userExists = await usersCollection.findOne({ username: followUser });
-    if (!userExists) {
+    if (!userExists) 
+    {
       return res.status(400).json({ error: "User does not exist" });
     }
 
@@ -22,8 +37,15 @@ const addFollow = async (req, res) => {
       username: followUser,
       follower: loggedInUser,
     });
-    if (alreadyFollowing) {
+    if (alreadyFollowing) 
+    {
       return res.status(400).json({ error: "Already following this user" });
+    }
+
+    //Prevent users from following their own account.
+    if (loggedInUser === followUser) 
+    {
+      return res.status(400).json({ error: "Cannot follow yourself" });
     }
 
     //Add the follow to the follow coll.
