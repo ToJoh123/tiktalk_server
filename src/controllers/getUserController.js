@@ -1,32 +1,22 @@
-const jwt = require("jsonwebtoken");
+const db = require("../database/db"); 
 
-const getUserInfo = (req, res) => {
+const getUserInfo = async (req, res) => {
+  const profileName = req.query.username;
   try {
-    // Extract the token from the "Authorization" header
-    const token = req.headers.authorization.split(" ")[1];
-
-    // Verify the JWT token
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
-      // Send the user data to the client in the expected format
-      res.status(200).json({
-        fullname: decoded.fullname,
-        username: decoded.username,
-      });
-    } catch (error) {
-      // Handle JWT verification errors
-      if (error instanceof jwt.JsonWebTokenError) {
-        res.status(401).json({ message: "Invalid token" });
-      } else {
-        // Handle other errors
-        console.error("Error in getUserInfo function:", error);
-        res.status(500).json({ message: "An error occurred while processing the request" });
-      }
+    const data = await db.users.find({ username: profileName }).toArray();
+    if(data.length == 0)
+    {
+      return res.status(400).json({ error: "User does not exist" });
     }
+    const userPosts = await db.comments.find({ username: profileName }).toArray();
+    res.status(200).json({
+      message: "this is getCurrentUserComments function at /comments/user",
+      data,
+      userPosts,
+    });
   } catch (error) {
-    console.error("Error in getUserInfo function:", error);
-    res.status(400).json({ message: "Bad request" });
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
