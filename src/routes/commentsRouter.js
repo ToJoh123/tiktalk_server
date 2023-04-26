@@ -2,6 +2,7 @@ const express = require("express");
 const { getComments } = require("../controllers/comments/getComments");
 const { postComment } = require("../controllers/comments/postComment");
 const { deleteComment } = require("../controllers/comments/deleteComment");
+const { getFollowingPosts } = require("../controllers/comments/getFollowingPosts");
 const {
   getCurrentUserComments,
 } = require("../controllers/comments/user/getCurrentUserComments");
@@ -13,5 +14,6 @@ commentsRouter.post("/", postComment);
 commentsRouter.delete("/", deleteComment);
 commentsRouter.patch("/", patchComment);
 commentsRouter.get("/user", getCurrentUserComments);
+commentsRouter.get("/feed", getFollowingPosts);
 
 module.exports = commentsRouter;
