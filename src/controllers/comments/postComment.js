@@ -35,6 +35,7 @@ exports.postComment = async function postComment(req, res) {
     createdAt: yyyymmddhhmm(new Date()),
     userId: decoded._id,
     username: decoded.username,
+    likes: [],
   };
 
   try {
