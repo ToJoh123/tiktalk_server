@@ -1,8 +1,17 @@
 const db = require("../../database/db"); 
 const dotenv = require('dotenv');
 dotenv.config();
+const joi = require("joi");
+
+const getProfileInfoSchema = joi.object({
+  username: joi.string().allow(null, '').min(1).max(150),
+});
 
 const getProfileInfo = async (req, res) => {
+  const { error } = getProfileInfoSchema.validate(req.query);
+  if (error) {
+    return res.status(400).json(error.details[0].message);
+  }
   const profileName = req.query.username || req.user.username; //If username parameter is not there, use loggedInUser value.
   try {
     const data = await db.users.find({ username: profileName }).toArray();
