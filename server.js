@@ -13,7 +13,7 @@ app.use(
   })
 );
 
-app.use(cookieParser()); // Add cookie-parser middleware
+app.use(cookieParser()); //Add cookie-parser middleware.
 
 // Import the database.js file
 const { main } = require("./src/database/database");
@@ -21,15 +21,17 @@ const authRouter = require("./src/routes/authentication_router");
 const verifyToken = require("./src/middlewares/verifyToken");
 const commentsRouter = require("./src/routes/commentsRouter");
 const socialRouter = require("./src/routes/socialRouter");
+const accessRouter = require("./src/routes/accessRouter");
+app.use("/access", verifyToken, accessRouter); //Security router.
 app.use("/", authRouter);
 app.use("/comments", verifyToken, commentsRouter);
 app.use("/profile", verifyToken, socialRouter);
 
-// Call the main() function to establish the database connection.
+//Call the main() function to establish the database connection.
 main()
   .then(() => {
     console.log("main():Database connection established successfully");
-    // Start your server here
+    //Start your server here
     app.listen(3000, () => {
       console.log("Server is running on http://localhost:3000");
     });
