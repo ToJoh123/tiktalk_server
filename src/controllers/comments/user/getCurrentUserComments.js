@@ -1,10 +1,13 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
 const db = require("../../../database/db");
 const jwt = require("jsonwebtoken");
 
 exports.getCurrentUserComments = async function (req, res) {
-  const decoded = jwt.decode(req.cookies.jwt);
+  const username = req.query.username || req.user.username;
   try {
-    const data = await db.comments.find({ userId: decoded._id }).toArray();
+    const data = await db.comments.find({ username: username }).toArray();
     res.status(200).json({
       message: "this is getCurrentUserComments function at /comments/user",
       data,
