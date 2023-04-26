@@ -1,7 +1,9 @@
-const db = require("../database/db"); 
+const db = require("../../database/db"); 
+const dotenv = require('dotenv');
+dotenv.config();
 
 const getProfileInfo = async (req, res) => {
-  const profileName = req.query.username;
+  const profileName = req.query.username || req.user.username; //If username parameter is not there, use loggedInUser value.
   try {
     const data = await db.users.find({ username: profileName }).toArray();
     if(data.length == 0)
@@ -10,7 +12,7 @@ const getProfileInfo = async (req, res) => {
     }
     const userPosts = await db.comments.find({ username: profileName }).toArray();
     res.status(200).json({
-      message: "this is getCurrentUserComments function at /comments/user",
+      message: "this is getProfileController /api/profile",
       data,
       userPosts,
     });
