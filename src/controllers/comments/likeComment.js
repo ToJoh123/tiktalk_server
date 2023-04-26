@@ -1,8 +1,17 @@
 const { ObjectId } = require("mongodb");
 const jwt = require("jsonwebtoken");
 const db = require("../../database/db");
+const joi = require("joi");
+
+const likeCommentSchema = joi.object({
+  commentId: joi.string().required().min(1).max(150),
+});
 
 exports.likeComment = async function likeComment(req, res) {
+  const { error } = likeCommentSchema.validate(req.params);
+  if (error) {
+    return res.status(400).json(error.details[0].message);
+  }
   const commentId = req.params.commentId;
   const decoded = jwt.decode(req.cookies.jwt);
 
