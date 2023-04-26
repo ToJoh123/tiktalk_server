@@ -2,12 +2,14 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const protectedPage = async (req, res) => {
-    // Check if req.user exists
-    if (!req.user) {
-        return res.status(401).send('Invalid token');
-    }
+    const loggedInUser = req.user.username;
   
-  };
+    if (!loggedInUser) {
+        return res.status(401).send('Invalid token');
+    } else {
+        return res.status(201).send('Valid token');
+    }
+};
 
 module.exports = {
     protectedPage
