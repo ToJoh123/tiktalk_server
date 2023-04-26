@@ -7,6 +7,7 @@ const {
   getCurrentUserComments,
 } = require("../controllers/comments/user/getCurrentUserComments");
 const { patchComment } = require("../controllers/comments/patchComment");
+const { likeComment } = require("../controllers/comments/likeComment")
 
 const commentsRouter = express.Router();
 commentsRouter.get("/", getComments);
@@ -15,5 +16,6 @@ commentsRouter.delete("/", deleteComment);
 commentsRouter.patch("/", patchComment);
 commentsRouter.get("/user", getCurrentUserComments);
 commentsRouter.get("/feed", getFollowingPosts);
+commentsRouter.patch("/like/:commentId", likeComment)
 
 module.exports = commentsRouter;
